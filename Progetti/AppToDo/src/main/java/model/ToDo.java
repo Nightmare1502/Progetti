@@ -16,13 +16,9 @@ import java.time.LocalDateTime;
 
 public class ToDo {
         private Integer id;
-
         private LocalDateTime createdAt;
-
         private LocalDateTime updatedAt;
-
         private String titolo;
-
         private boolean completato;
 
         public ToDo(int id, LocalDateTime createdAt, LocalDateTime updatedAt, String titolo, boolean completato) {

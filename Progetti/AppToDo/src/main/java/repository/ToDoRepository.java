@@ -129,4 +129,25 @@ public class ToDoRepository {
 
         statement.executeUpdate();
     }
+
+    public void deleteById(long id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM todo WHERE ID = ?");
+        statement.setLong(1, id);
+        int rowsAffected = statement.executeUpdate();
+
+        if (rowsAffected == 0) {
+            System.err.println("Nessun ToDo trovato con ID " + id);
+        }
+    }
+
+    public void completatoById(long id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("UPDATE todo SET completato = 1 WHERE ID = ?");
+        statement.setLong(1, id);
+        int rowsAffected = statement.executeUpdate();
+
+        if (rowsAffected == 0) {
+            System.err.println("Nessun ToDo trovato con ID " + id);
+        }
+
+    }
 }

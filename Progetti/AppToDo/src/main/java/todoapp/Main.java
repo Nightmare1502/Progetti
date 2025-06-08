@@ -21,49 +21,76 @@ public class Main {
             System.out.println("\n1 - Vedi lista ToDo");
             System.out.println("2 - Aggiungere ToDo");
             System.out.println("3 - Eliminare ToDo");
-            System.out.println("4 - Cercare ToDo");
+            System.out.println("4 - Completa ToDo");
             System.out.println("0 - Esci");
 
             String input = scan.nextLine();
 
             switch (input) {
-                case "1":
+                case "1" -> {
                     List<ToDo> todos = repo.findAll();
                     if (todos.isEmpty()) {
                         System.out.println("La lista è vuota!");
                     } else {
-                        for (ToDo todo : todos)
+                        for (ToDo todo : todos) {
                             System.out.println(todo.getId() + " - " + todo.getTitolo() + " - Completato: " + todo.isCompletato());
+                        }
                     }
-                    break;
-                case "0":
-                    esegue = false;
+                }
+                case "2" -> {
+                    System.out.println("Inserisci una descrizione del tuo ToDo");
+                    String descrizione = scan.nextLine();
+
+                    if (!descrizione.isBlank()) {
+                        ToDo nuovoTodo = new ToDo(descrizione);
+                        repo.create(nuovoTodo);
+                        System.out.println("ToDo creato con successo!");
+                    } else {
+                        System.err.println("Devi inserire la descrizione del ToDo!");
+                    }
+                }
+                case "3" -> {
+                    System.out.println("Scegli l'ID del tuo ToDo da eliminare: ");
+                    List<ToDo> todos = repo.findAll();
+                    if (todos.isEmpty()) {
+                        System.out.println("La lista è vuota!");
+                    } else {
+                        for (ToDo todo : todos) {
+                            System.out.println(todo.getId() + " - " + todo.getTitolo());
+                        }
+                    }
+                    int todoElimina = scan.nextInt();
+                    scan.nextLine();
+
+                    if (todoElimina <= 0) {
+                        System.err.println("ID non valido!");
+                    } else {
+                        repo.deleteById(todoElimina);
+                        System.out.println("ToDo eliminato con successo!");
+                    }
+                }
+                case "4" -> {
+                    System.out.println("Inserisci l'ID del ToDo da impostare come completato");
+                    List<ToDo> todos = repo.findAll();
+                    if (todos.isEmpty()) {
+                        System.out.println("La lista è vuota!");
+                    } else {
+                        for (ToDo todo : todos) {
+                            System.out.println(todo.getId() + " - " + todo.getTitolo());
+                        }
+                    }
+                    int todoCompleta = scan.nextInt();
+                    scan.nextLine();
+
+                    if (todoCompleta <= 0) {
+                        System.err.println("ID non valido!");
+                    } else {
+                        repo.completatoById(todoCompleta);
+                        System.out.println("ToDo aggiornato con successo!");
+                    }
+                }
+                case "0" -> esegue = false;
             }
-
-            int ricercaId = 3;
-            ToDo todo3 = repo.findById(ricercaId);
-
-            if (todo3 != null) {
-                todo3.setTitolo("TODO 3");
-                todo3.setCompletato(true);
-                repo.update(todo3);
-            } else {
-                System.out.println("TODO con id " + ricercaId + " non trovato");
-            }
-
-            List<ToDo> todos = repo.findAll();
-            for (ToDo t : todos) {
-                System.out.println(t);
-            }
-
-//
-//		// INSERT INTO todos (titolo) VALUES (?)
-//		System.out.print("Inserisci il titolo del TODO: ");
-//		String titoloTodo = scan.nextLine();
-//
-//		repo.create(new Todo(titoloTodo));
-
-
         }
     }
 }
