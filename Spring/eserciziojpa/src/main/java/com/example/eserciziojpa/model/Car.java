@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "macchina")
-public class Macchina {
+public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +21,28 @@ public class Macchina {
     private String modelName;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private CarType type;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private CarColor color;
 
     @Column
     private String description;
 
-    public Macchina() {}
+    private Car() {}
+
+    public Car(String modelName, CarType type, CarColor color, String description) {
+        this.modelName = modelName;
+        this.type = type;
+        this.color = color;
+        this.description = description;
+    }
+
+    public Car(String modelName, CarType type, CarColor color) {
+        this(modelName, type, color, null);
+    }
 
     public Integer getId() {
         return id;
